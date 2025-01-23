@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Récompenses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .wheel {
+            margin: 20px auto;
+            width: 300px;
+            height: 300px;
+            border: 10px solid #333;
+            border-radius: 50%;
+            position: relative;
+        }
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background-color: #ffc107;
+            transform-origin: 100% 100%;
+            clip-path: polygon(100% 100%, 0 100%, 0 0);
+        }
+        .wheel-segment:nth-child(even) {
+            background-color: #007bff;
+        }
+        .pointer {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 30px solid red;
+            margin: 0 auto;
+            position: relative;
+            top: -10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Jouez et Gagnez !</h1>
+        <p>Tournez la roue pour découvrir votre récompense !</p>
+        <div class="pointer"></div>
+        <div class="wheel" id="wheel">
+            <div class="wheel-segment" style="transform: rotate(0deg);"></div>
+            <div class="wheel-segment" style="transform: rotate(60deg);"></div>
+            <div class="wheel-segment" style="transform: rotate(120deg);"></div>
+            <div class="wheel-segment" style="transform: rotate(180deg);"></div>
+            <div class="wheel-segment" style="transform: rotate(240deg);"></div>
+            <div class="wheel-segment" style="transform: rotate(300deg);"></div>
+        </div>
+        <button id="spinButton">Tourner la roue</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const spinButton = document.getElementById('spinButton');
+        const result = document.getElementById('result');
+
+        const prizes = [
+            "Un café gratuit",
+            "10% de réduction",
+            "Un dessert offert",
+            "Un cappuccino gratuit",
+            "5% de réduction",
+            "Un chocolat chaud gratuit"
+        ];
+
+        spinButton.addEventListener('click', () => {
+            const randomSpin = Math.floor(Math.random() * 3600) + 360; // Random spin value
+            const selectedPrizeIndex = Math.floor(((randomSpin % 360) / 60));
+
+            wheel.style.transition = "transform 3s ease-out";
+            wheel.style.transform = `rotate(${randomSpin}deg)`;
+
+            setTimeout(() => {
+                const prize = prizes[selectedPrizeIndex];
+                result.textContent = `Félicitations ! Vous avez gagné : ${prize}`;
+            }, 3000); // Match the duration of the spin animation
+        });
+    </script>
+</body>
+</html>
